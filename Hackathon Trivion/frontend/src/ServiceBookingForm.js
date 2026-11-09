@@ -342,7 +342,7 @@ function ServiceBookingForm() {
                                     </td>
                                     <td>₹{b.estimatedCost}</td>
                                     <td>
-                                        <span style={{ fontWeight: 600, color: b.status === "Completed" ? "#16a34a" : (b.status === "In Progress" ? "#2563eb" : "#d97706") }}>
+                                        <span className={`status-badge ${b.status === "Completed" ? "status-completed" : (b.status === "In Progress" ? "status-in-progress" : "status-booked")}`}>
                                             {b.status}
                                         </span>
                                     </td>

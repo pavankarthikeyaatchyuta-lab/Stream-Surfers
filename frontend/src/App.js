@@ -49,7 +49,10 @@ function App() {
 
   return (
     <div className="app-container">
-      <h2 className="app-title">Vehicle Service Center Management System</h2>
+      <div className="app-header">
+        <h2 className="app-title">Vehicle Service Center Management System</h2>
+        <p className="app-subtitle">Team Trivion (Team 13) • Problem Statement M27: Stream Surfers</p>
+      </div>
 
       <div className="nav-links">
         <button
