@@ -1,52 +1,38 @@
-# Hackathon Trivion - Vehicle Service Center Management System (M27)
+# Team No. 14: Trivion
+## Problem Statement M27: Stream Surfers (Vehicle Service Center Management System)
 
-This folder contains the complete, working full-stack project combining the backend and the streamlined 3-page consolidated frontend.
+This repository contains the full-stack project built by **Team Trivion (Team No. 14)** for Problem Statement **M27: Stream Surfers**.
 
-## Project Structure
+### Project Overview
+- **Team Number:** Team No. 14
+- **Team Name:** Trivion
+- **Problem Statement:** M27 — Stream Surfers (Vehicle Service Center Management System)
+- **Stack:** MongoDB, Express 5, React 19, Node.js
 
+### Project Structure
 ```
 Hackathon Trivion/
-├── backend/
-│   ├── api/
-│   │   ├── Customer.route.js
-│   │   ├── Vehicle.route.js
-│   │   ├── Servicebooking.route.js
-│   │   └── Servicebill.route.js
-│   ├── models/
-│   │   ├── customer.js
-│   │   ├── vehicle.js
-│   │   ├── servicebooking.js
-│   │   └── servicebill.js
-│   ├── myserver.js
-│   └── package.json
-└── frontend/
-    ├── src/
-    │   ├── App.js                (3-page consolidated workflow router)
-    │   ├── App.css               (Simple, clean layout stylesheet)
-    │   ├── CustomerForm.js       (Page 1: Customer & Vehicle registration, Search, Edit, Delete)
-    │   ├── ServiceBookingForm.js (Page 2: Service Bookings from existing customers, Mechanic assignment)
-    │   └── ServiceBillForm.js    (Page 3: Service Bills from serviced vehicles)
-    └── package.json
+├── README.md
+├── Vehicle_Service_Center_M27_Presentation.pptx  (Official Hackathon Presentation)
+├── backend/                                       (Node.js / Express REST API)
+└── frontend/                                      (React 19, 3-Page Consolidated UI)
 ```
 
-## How to Run
+### Presentation
+The official hackathon slides are included:
+- `Vehicle_Service_Center_M27_Presentation.pptx` (Concise 5-slide high-impact presentation)
 
-### 1. Start MongoDB
-Ensure MongoDB is running locally on port 27017:
-```bash
-mongod
-```
+### How to Run
+1. **Backend**:
+   ```bash
+   cd backend
+   npm start
+   ```
+   Runs on `http://localhost:5000`.
 
-### 2. Start Backend
-```bash
-cd backend
-npm start
-```
-*Backend runs on `http://localhost:5000` connected to `mongodb://127.0.0.1:27017/VehicleServiceCenter`.*
-
-### 3. Start Frontend
-```bash
-cd frontend
-npm start
-```
-*Frontend runs on `http://localhost:3000`.*
+2. **Frontend**:
+   ```bash
+   cd frontend
+   npm start
+   ```
+   Runs on `http://localhost:3000`.
