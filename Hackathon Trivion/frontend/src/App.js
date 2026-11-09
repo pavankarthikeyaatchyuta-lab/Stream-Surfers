@@ -48,7 +48,7 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div className="app-container">
       <h2 className="app-title">Vehicle Service Center Management System</h2>
 
       <div className="nav-links">
@@ -75,7 +75,7 @@ function App() {
         </button>
       </div>
 
-      <hr />
+      <hr className="divider" />
 
       {currentTab === "customers-vehicles" && (
         <div>

@@ -46,6 +46,7 @@ function ServiceBookingForm() {
 
     useEffect(function () {
         loadData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     function handleCustomerVehicleSelect(e) {
@@ -148,216 +149,225 @@ function ServiceBookingForm() {
 
     return (
         <div>
-            <h3>Book service</h3>
+            <h3 className="section-title">Book Service Appointment</h3>
 
-            {/* Select existing customer and vehicle to book service */}
-            {vehiclesList.length > 0 && (
-                <div className="form-row">
-                    <label>Select Customer & Vehicle:</label>
-                    <select className="form-select" value={vehicleNumber} onChange={handleCustomerVehicleSelect}>
-                        <option value="">-- Choose Customer & Vehicle --</option>
-                        {vehiclesList.map(function (v, i) {
-                            const reg = v.VehicleNumber || v.vehicleNumber || "";
-                            const model = v.model || v.vehicleModel || "";
-                            const owner = v.ownerName || v.customerName || "";
+            <div className="form-card">
+                {vehiclesList.length > 0 && (
+                    <div className="form-row">
+                        <label>Select Customer & Vehicle:</label>
+                        <select className="form-select" value={vehicleNumber} onChange={handleCustomerVehicleSelect}>
+                            <option value="">-- Choose Customer & Vehicle --</option>
+                            {vehiclesList.map(function (v, i) {
+                                const reg = v.VehicleNumber || v.vehicleNumber || "";
+                                const model = v.model || v.vehicleModel || "";
+                                const owner = v.ownerName || v.customerName || "";
+                                return (
+                                    <option key={v._id || i} value={reg}>
+                                        {owner} - {model} ({reg})
+                                    </option>
+                                );
+                            })}
+                        </select>
+                    </div>
+                )}
+
+                <form onSubmit={handleSubmit}>
+                    <div className="form-row">
+                        <label>Booking ID:</label>
+                        <input
+                            type="text"
+                            name="bookingId"
+                            className="form-input"
+                            placeholder="e.g. SB101"
+                            value={bookingId}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-row">
+                        <label>Customer Name:</label>
+                        <input
+                            type="text"
+                            name="customerName"
+                            className="form-input"
+                            placeholder="Customer Name"
+                            value={customerName}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-row">
+                        <label>Vehicle Number:</label>
+                        <input
+                            type="text"
+                            name="vehicleNumber"
+                            className="form-input"
+                            placeholder="Vehicle Registration Number"
+                            value={vehicleNumber}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-row">
+                        <label>Vehicle Model:</label>
+                        <input
+                            type="text"
+                            name="vehicleModel"
+                            className="form-input"
+                            placeholder="Vehicle Model"
+                            value={vehicleModel}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-row">
+                        <label>Service Type:</label>
+                        <input
+                            type="text"
+                            name="serviceType"
+                            className="form-input"
+                            placeholder="e.g. General Service"
+                            value={serviceType}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-row">
+                        <label>Booking Date:</label>
+                        <input
+                            type="date"
+                            name="bookingDate"
+                            className="form-input"
+                            value={bookingDate}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-row">
+                        <label>Mechanic Name:</label>
+                        <input
+                            type="text"
+                            name="mechanicName"
+                            className="form-input"
+                            placeholder="Mechanic Name"
+                            value={mechanicName}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-row">
+                        <label>Estimated Cost (₹):</label>
+                        <input
+                            type="number"
+                            name="estimatedCost"
+                            className="form-input"
+                            placeholder="Estimated Cost"
+                            value={estimatedCost}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-row">
+                        <label>Status:</label>
+                        <select
+                            name="status"
+                            className="form-select"
+                            value={status}
+                            onChange={handleChange}
+                        >
+                            <option value="Booked">Booked</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+
+                    <div className="btn-center">
+                        <button type="submit" className="btn btn-primary">
+                            Book Service Appointment
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <hr className="divider" />
+
+            <h3 className="section-title">Active Service Bookings</h3>
+            
+            <div className="table-responsive">
+                <table className="simple-table">
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Customer Name</th>
+                            <th>Vehicle Number</th>
+                            <th>Vehicle Model</th>
+                            <th>Service Type</th>
+                            <th>Booking Date</th>
+                            <th>Assigned Mechanic</th>
+                            <th>Estimated Cost</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {bookings.map(function (b, index) {
                             return (
-                                <option key={v._id || i} value={reg}>
-                                    {owner} - {model} ({reg})
-                                </option>
+                                <tr key={b._id || index}>
+                                    <td><strong>{b.bookingId}</strong></td>
+                                    <td>{b.customerName}</td>
+                                    <td>{b.vehicleNumber}</td>
+                                    <td>{b.vehicleModel}</td>
+                                    <td>{b.serviceType}</td>
+                                    <td>{b.bookingDate}</td>
+                                    <td>
+                                        <select
+                                            className="form-select"
+                                            style={{ width: "auto", padding: "4px 8px", fontSize: "12.5px" }}
+                                            value={b.mechanicName}
+                                            onChange={function (e) { handleMechanicChange(b._id, e.target.value); }}
+                                        >
+                                            <option value="Kumar">Kumar</option>
+                                            <option value="Ramesh">Ramesh</option>
+                                            <option value="Suresh">Suresh</option>
+                                            <option value="Anand">Anand</option>
+                                        </select>
+                                    </td>
+                                    <td>₹{b.estimatedCost}</td>
+                                    <td>
+                                        <span style={{ fontWeight: 600, color: b.status === "Completed" ? "#16a34a" : (b.status === "In Progress" ? "#2563eb" : "#d97706") }}>
+                                            {b.status}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button
+                                            type="button"
+                                            className="btn btn-danger btn-sm"
+                                            onClick={function () { handleCancelBooking(b._id); }}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </td>
+                                </tr>
                             );
                         })}
-                    </select>
-                </div>
-            )}
-
-            <form onSubmit={handleSubmit}>
-                <div className="form-row">
-                    <label>bookingId:</label>
-                    <input
-                        type="text"
-                        name="bookingId"
-                        className="form-input"
-                        placeholder="e.g. SB101"
-                        value={bookingId}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-row">
-                    <label>customerName:</label>
-                    <input
-                        type="text"
-                        name="customerName"
-                        className="form-input"
-                        placeholder="Customer Name"
-                        value={customerName}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-row">
-                    <label>vehicleNumber:</label>
-                    <input
-                        type="text"
-                        name="vehicleNumber"
-                        className="form-input"
-                        placeholder="Vehicle Registration Number"
-                        value={vehicleNumber}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-row">
-                    <label>vehicleModel:</label>
-                    <input
-                        type="text"
-                        name="vehicleModel"
-                        className="form-input"
-                        placeholder="Vehicle Model"
-                        value={vehicleModel}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-row">
-                    <label>serviceType:</label>
-                    <input
-                        type="text"
-                        name="serviceType"
-                        className="form-input"
-                        placeholder="e.g. General Service"
-                        value={serviceType}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-row">
-                    <label>bookingDate:</label>
-                    <input
-                        type="date"
-                        name="bookingDate"
-                        className="form-input"
-                        value={bookingDate}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-row">
-                    <label>mechanicName:</label>
-                    <input
-                        type="text"
-                        name="mechanicName"
-                        className="form-input"
-                        placeholder="Mechanic Name"
-                        value={mechanicName}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-row">
-                    <label>estimatedCost:</label>
-                    <input
-                        type="number"
-                        name="estimatedCost"
-                        className="form-input"
-                        placeholder="Estimated Cost"
-                        value={estimatedCost}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-row">
-                    <label>status:</label>
-                    <select
-                        name="status"
-                        className="form-select"
-                        value={status}
-                        onChange={handleChange}
-                    >
-                        <option value="Booked">Booked</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Completed">Completed</option>
-                    </select>
-                </div>
-
-                <button type="submit" className="btn btn-primary">
-                    Book Service
-                </button>
-            </form>
-
-            <hr />
-
-            <h3>View bookings</h3>
-            <table className="simple-table" border="1">
-                <thead>
-                    <tr>
-                        <th>bookingId</th>
-                        <th>customerName</th>
-                        <th>vehicleNumber</th>
-                        <th>vehicleModel</th>
-                        <th>serviceType</th>
-                        <th>bookingDate</th>
-                        <th>mechanicName</th>
-                        <th>estimatedCost</th>
-                        <th>status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {bookings.map(function (b, index) {
-                        return (
-                            <tr key={b._id || index}>
-                                <td>{b.bookingId}</td>
-                                <td>{b.customerName}</td>
-                                <td>{b.vehicleNumber}</td>
-                                <td>{b.vehicleModel}</td>
-                                <td>{b.serviceType}</td>
-                                <td>{b.bookingDate}</td>
-                                <td>
-                                    <select
-                                        className="form-select"
-                                        style={{ width: "auto", padding: "4px" }}
-                                        value={b.mechanicName}
-                                        onChange={function (e) { handleMechanicChange(b._id, e.target.value); }}
-                                    >
-                                        <option value="Kumar">Kumar</option>
-                                        <option value="Ramesh">Ramesh</option>
-                                        <option value="Suresh">Suresh</option>
-                                        <option value="Anand">Anand</option>
-                                    </select>
-                                </td>
-                                <td>{b.estimatedCost}</td>
-                                <td>{b.status}</td>
-                                <td>
-                                    <button
-                                        type="button"
-                                        className="btn btn-danger"
-                                        style={{ fontSize: "12px", padding: "4px 8px" }}
-                                        onClick={function () { handleCancelBooking(b._id); }}
-                                    >
-                                        Cancel
-                                    </button>
+                        {bookings.length === 0 && (
+                            <tr>
+                                <td colSpan="10" style={{ padding: "16px", color: "#64748b" }}>
+                                    No bookings found.
                                 </td>
                             </tr>
-                        );
-                    })}
-                    {bookings.length === 0 && (
-                        <tr>
-                            <td colSpan="10" style={{ textAlign: "center", padding: "12px", color: "#666" }}>
-                                No bookings found.
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

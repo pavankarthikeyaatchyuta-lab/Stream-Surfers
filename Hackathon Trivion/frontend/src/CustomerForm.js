@@ -139,88 +139,93 @@ function CustomerForm() {
 
     return (
         <div>
-            <h3>Add customer and vehicle</h3>
-            <form onSubmit={handleSubmit}>
-                <div className="form-row">
-                    <label>Customer Name:</label>
-                    <input
-                        type="text"
-                        name="customerName"
-                        className="form-input"
-                        placeholder="Customer Name"
-                        value={customerName}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
+            <h3 className="section-title">Add Customer & Vehicle</h3>
+            
+            <div className="form-card">
+                <form onSubmit={handleSubmit}>
+                    <div className="form-row">
+                        <label>Customer Name:</label>
+                        <input
+                            type="text"
+                            name="customerName"
+                            className="form-input"
+                            placeholder="Customer Name"
+                            value={customerName}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
 
-                <div className="form-row">
-                    <label>Phone Number:</label>
-                    <input
-                        type="tel"
-                        name="phone"
-                        className="form-input"
-                        placeholder="Phone Number"
-                        value={phone}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
+                    <div className="form-row">
+                        <label>Phone Number:</label>
+                        <input
+                            type="tel"
+                            name="phone"
+                            className="form-input"
+                            placeholder="Phone Number"
+                            value={phone}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
 
-                <div className="form-row">
-                    <label>Email Address:</label>
-                    <input
-                        type="email"
-                        name="email"
-                        className="form-input"
-                        placeholder="Email Address"
-                        value={email}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
+                    <div className="form-row">
+                        <label>Email Address:</label>
+                        <input
+                            type="email"
+                            name="email"
+                            className="form-input"
+                            placeholder="Email Address"
+                            value={email}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
 
-                <div className="form-row">
-                    <label>Registration Number:</label>
-                    <input
-                        type="text"
-                        name="vehicleNumber"
-                        className="form-input"
-                        placeholder="e.g. AP37AB1234"
-                        value={vehicleNumber}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
+                    <div className="form-row">
+                        <label>Registration Number:</label>
+                        <input
+                            type="text"
+                            name="vehicleNumber"
+                            className="form-input"
+                            placeholder="e.g. AP37AB1234"
+                            value={vehicleNumber}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
 
-                <div className="form-row">
-                    <label>Vehicle Model:</label>
-                    <input
-                        type="text"
-                        name="vehicleModel"
-                        className="form-input"
-                        placeholder="e.g. Honda City"
-                        value={vehicleModel}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
+                    <div className="form-row">
+                        <label>Vehicle Model:</label>
+                        <input
+                            type="text"
+                            name="vehicleModel"
+                            className="form-input"
+                            placeholder="e.g. Honda City"
+                            value={vehicleModel}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
 
-                <button type="submit" className="btn btn-primary">
-                    Add Customer & Vehicle
-                </button>
-            </form>
+                    <div className="btn-center">
+                        <button type="submit" className="btn btn-primary">
+                            Add Customer & Vehicle
+                        </button>
+                    </div>
+                </form>
+            </div>
 
-            <hr />
+            <hr className="divider" />
 
-            <h3>Registered Customers and Vehicles</h3>
+            <h3 className="section-title">Registered Customers and Vehicles</h3>
 
             <div className="search-bar">
-                <label style={{ marginRight: "8px", fontWeight: "bold" }}>Search vehicles using registration number:</label>
+                <label>Search vehicles using registration number:</label>
                 <input
                     type="text"
                     className="search-input"
-                    placeholder="Enter registration number"
+                    placeholder="Enter registration number (e.g. AP37AB1234)"
                     value={searchRegNo}
                     onChange={function (e) { setSearchRegNo(e.target.value); }}
                 />
@@ -228,7 +233,7 @@ function CustomerForm() {
 
             {editVehicle && (
                 <div className="inline-edit-box">
-                    <h4>Update vehicle ({editVehicle.VehicleNumber})</h4>
+                    <h4>Update Vehicle ({editVehicle.VehicleNumber})</h4>
                     <form onSubmit={handleUpdateSubmit}>
                         <div className="form-row">
                             <label>Vehicle Model:</label>
@@ -263,69 +268,73 @@ function CustomerForm() {
                             />
                         </div>
 
-                        <button type="submit" className="btn btn-primary" style={{ marginRight: "8px" }}>
-                            Save
-                        </button>
-                        <button type="button" className="btn btn-secondary" onClick={function () { setEditVehicle(null); }}>
-                            Cancel
-                        </button>
+                        <div className="btn-center">
+                            <button type="submit" className="btn btn-primary">
+                                Save Changes
+                            </button>
+                            <button type="button" className="btn btn-secondary" onClick={function () { setEditVehicle(null); }}>
+                                Cancel
+                            </button>
+                        </div>
                     </form>
                 </div>
             )}
 
-            <table className="simple-table" border="1">
-                <thead>
-                    <tr>
-                        <th>Vehicle Number</th>
-                        <th>Vehicle Model</th>
-                        <th>Customer Name</th>
-                        <th>Contact Number</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredVehicles.map(function (vehicle, index) {
-                        const reg = vehicle.VehicleNumber || vehicle.vehicleNumber || "";
-                        const model = vehicle.model || vehicle.vehicleModel || "";
-                        const owner = vehicle.ownerName || vehicle.customerName || "";
-                        const contact = vehicle.ownerPhone || vehicle.contactNumber || vehicle.phone || "";
+            <div className="table-responsive">
+                <table className="simple-table">
+                    <thead>
+                        <tr>
+                            <th>Vehicle Number</th>
+                            <th>Vehicle Model</th>
+                            <th>Customer Name</th>
+                            <th>Contact Number</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredVehicles.map(function (vehicle, index) {
+                            const reg = vehicle.VehicleNumber || vehicle.vehicleNumber || "";
+                            const model = vehicle.model || vehicle.vehicleModel || "";
+                            const owner = vehicle.ownerName || vehicle.customerName || "";
+                            const contact = vehicle.ownerPhone || vehicle.contactNumber || vehicle.phone || "";
 
-                        return (
-                            <tr key={vehicle._id || index}>
-                                <td>{reg}</td>
-                                <td>{model}</td>
-                                <td>{owner}</td>
-                                <td>{contact}</td>
-                                <td>
-                                    <button
-                                        type="button"
-                                        className="btn btn-secondary"
-                                        onClick={function () { handleStartEdit(vehicle); }}
-                                        style={{ marginRight: "6px", fontSize: "12px", padding: "4px 8px" }}
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="btn btn-danger"
-                                        onClick={function () { handleDelete(vehicle._id); }}
-                                        style={{ fontSize: "12px", padding: "4px 8px" }}
-                                    >
-                                        Delete
-                                    </button>
+                            return (
+                                <tr key={vehicle._id || index}>
+                                    <td><strong>{reg}</strong></td>
+                                    <td>{model}</td>
+                                    <td>{owner}</td>
+                                    <td>{contact}</td>
+                                    <td>
+                                        <div className="table-actions">
+                                            <button
+                                                type="button"
+                                                className="btn btn-secondary btn-sm"
+                                                onClick={function () { handleStartEdit(vehicle); }}
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                type="button"
+                                                className="btn btn-danger btn-sm"
+                                                onClick={function () { handleDelete(vehicle._id); }}
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                        {filteredVehicles.length === 0 && (
+                            <tr>
+                                <td colSpan="5" style={{ padding: "16px", color: "#64748b" }}>
+                                    No records found.
                                 </td>
                             </tr>
-                        );
-                    })}
-                    {filteredVehicles.length === 0 && (
-                        <tr>
-                            <td colSpan="5" style={{ textAlign: "center", padding: "12px", color: "#666" }}>
-                                No records found.
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

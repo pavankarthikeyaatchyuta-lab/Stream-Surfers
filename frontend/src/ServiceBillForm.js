@@ -44,6 +44,7 @@ function ServiceBillForm() {
 
     useEffect(function () {
         loadData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     function handleCustomerVehicleSelect(e) {
@@ -103,149 +104,155 @@ function ServiceBillForm() {
 
     return (
         <div>
-            <h3>Generate service bill</h3>
+            <h3 className="section-title">Generate Service Bill</h3>
 
-            {/* Select customer and vehicle to generate the bill */}
-            {bookingsList.length > 0 && (
-                <div className="form-row">
-                    <label>Select Customer & Vehicle:</label>
-                    <select className="form-select" value={bookingId} onChange={handleCustomerVehicleSelect}>
-                        <option value="">-- Choose Customer & Vehicle --</option>
-                        {bookingsList.map(function (b, i) {
+            <div className="form-card">
+                {bookingsList.length > 0 && (
+                    <div className="form-row">
+                        <label>Select Serviced Booking:</label>
+                        <select className="form-select" value={bookingId} onChange={handleCustomerVehicleSelect}>
+                            <option value="">-- Choose Completed Booking --</option>
+                            {bookingsList.map(function (b, i) {
+                                return (
+                                    <option key={b._id || i} value={b.bookingId}>
+                                        {b.customerName} - {b.vehicleModel} ({b.vehicleNumber}) [Booking: {b.bookingId}]
+                                    </option>
+                                );
+                            })}
+                        </select>
+                    </div>
+                )}
+
+                <form onSubmit={handleSubmit}>
+                    <div className="form-row">
+                        <label>Bill Number:</label>
+                        <input
+                            type="text"
+                            className="form-input"
+                            placeholder="e.g. BILL101"
+                            value={billId}
+                            onChange={function (e) { setBillId(e.target.value); }}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-row">
+                        <label>Booking ID:</label>
+                        <input
+                            type="text"
+                            className="form-input"
+                            placeholder="e.g. SB101"
+                            value={bookingId}
+                            onChange={function (e) { setBookingId(e.target.value); }}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-row">
+                        <label>Customer Name:</label>
+                        <input
+                            type="text"
+                            className="form-input"
+                            placeholder="Customer Name"
+                            value={customerName}
+                            onChange={function (e) { setCustomerName(e.target.value); }}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-row">
+                        <label>Vehicle Number:</label>
+                        <input
+                            type="text"
+                            className="form-input"
+                            placeholder="Vehicle Number"
+                            value={vehicleNumber}
+                            onChange={function (e) { setVehicleNumber(e.target.value); }}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-row">
+                        <label>Total Cost (₹):</label>
+                        <input
+                            type="number"
+                            className="form-input"
+                            placeholder="Total Cost"
+                            value={totalAmount}
+                            onChange={function (e) { setTotalAmount(e.target.value); }}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-row">
+                        <label>Billing Date:</label>
+                        <input
+                            type="date"
+                            className="form-input"
+                            value={billDate}
+                            onChange={function (e) { setBillDate(e.target.value); }}
+                            required
+                        />
+                    </div>
+
+                    <div className="btn-center">
+                        <button type="submit" className="btn btn-primary">
+                            Generate Service Bill
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <hr className="divider" />
+
+            <h3 className="section-title">Service Invoices & Billing History</h3>
+            
+            <div className="table-responsive">
+                <table className="simple-table">
+                    <thead>
+                        <tr>
+                            <th>Bill Number</th>
+                            <th>Booking ID</th>
+                            <th>Customer Name</th>
+                            <th>Vehicle Number</th>
+                            <th>Total Cost</th>
+                            <th>Billed Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {bills.map(function (bill, index) {
+                            const billNum = bill.billNumber || bill.billId || "-";
+                            const totCost = bill.totalCost != null ? bill.totalCost : (bill.totalAmount != null ? bill.totalAmount : "-");
+                            let dateDisplay = bill.billDate;
+                            if (bill.billedDate) {
+                                try {
+                                    dateDisplay = new Date(bill.billedDate).toISOString().split("T")[0];
+                                } catch (e) {
+                                    dateDisplay = String(bill.billedDate);
+                                }
+                            }
+
                             return (
-                                <option key={b._id || i} value={b.bookingId}>
-                                    {b.customerName} - {b.vehicleModel} ({b.vehicleNumber}) [Booking: {b.bookingId}]
-                                </option>
+                                <tr key={bill._id || index}>
+                                    <td><strong>{billNum}</strong></td>
+                                    <td>{bill.bookingId}</td>
+                                    <td>{bill.customerName}</td>
+                                    <td>{bill.vehicleNumber}</td>
+                                    <td><strong>₹{totCost}</strong></td>
+                                    <td>{dateDisplay || "-"}</td>
+                                </tr>
                             );
                         })}
-                    </select>
-                </div>
-            )}
-
-            <form onSubmit={handleSubmit}>
-                <div className="form-row">
-                    <label>billNumber:</label>
-                    <input
-                        type="text"
-                        className="form-input"
-                        placeholder="e.g. BILL101"
-                        value={billId}
-                        onChange={function (e) { setBillId(e.target.value); }}
-                        required
-                    />
-                </div>
-
-                <div className="form-row">
-                    <label>bookingId:</label>
-                    <input
-                        type="text"
-                        className="form-input"
-                        placeholder="e.g. SB101"
-                        value={bookingId}
-                        onChange={function (e) { setBookingId(e.target.value); }}
-                        required
-                    />
-                </div>
-
-                <div className="form-row">
-                    <label>customerName:</label>
-                    <input
-                        type="text"
-                        className="form-input"
-                        placeholder="Customer Name"
-                        value={customerName}
-                        onChange={function (e) { setCustomerName(e.target.value); }}
-                        required
-                    />
-                </div>
-
-                <div className="form-row">
-                    <label>vehicleNumber:</label>
-                    <input
-                        type="text"
-                        className="form-input"
-                        placeholder="Vehicle Number"
-                        value={vehicleNumber}
-                        onChange={function (e) { setVehicleNumber(e.target.value); }}
-                        required
-                    />
-                </div>
-
-                <div className="form-row">
-                    <label>totalCost:</label>
-                    <input
-                        type="number"
-                        className="form-input"
-                        placeholder="Total Cost"
-                        value={totalAmount}
-                        onChange={function (e) { setTotalAmount(e.target.value); }}
-                        required
-                    />
-                </div>
- 
-                <div className="form-row">
-                    <label>billedDate:</label>
-                    <input
-                        type="date"
-                        className="form-input"
-                        value={billDate}
-                        onChange={function (e) { setBillDate(e.target.value); }}
-                        required
-                    />
-                </div>
-
-                <button type="submit" className="btn btn-primary">
-                    Generate Service Bill
-                </button>
-            </form>
-
-            <hr />
-
-            <h3>Service bills</h3>
-            <table className="simple-table" border="1">
-                <thead>
-                    <tr>
-                        <th>billNumber</th>
-                        <th>bookingId</th>
-                        <th>customerName</th>
-                        <th>vehicleNumber</th>
-                        <th>totalCost</th>
-                        <th>billedDate</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {bills.map(function (bill, index) {
-                        const billNum = bill.billNumber || bill.billId || "-";
-                        const totCost = bill.totalCost != null ? bill.totalCost : (bill.totalAmount != null ? bill.totalAmount : "-");
-                        let dateDisplay = bill.billDate;
-                        if (bill.billedDate) {
-                            try {
-                                dateDisplay = new Date(bill.billedDate).toISOString().split("T")[0];
-                            } catch (e) {
-                                dateDisplay = String(bill.billedDate);
-                            }
-                        }
-
-                        return (
-                            <tr key={bill._id || index}>
-                                <td>{billNum}</td>
-                                <td>{bill.bookingId}</td>
-                                <td>{bill.customerName}</td>
-                                <td>{bill.vehicleNumber}</td>
-                                <td>{totCost}</td>
-                                <td>{dateDisplay || "-"}</td>
+                        {bills.length === 0 && (
+                            <tr>
+                                <td colSpan="6" style={{ padding: "16px", color: "#64748b" }}>
+                                    No bills found.
+                                </td>
                             </tr>
-                        );
-                    })}
-                    {bills.length === 0 && (
-                        <tr>
-                            <td colSpan="6" style={{ textAlign: "center", padding: "12px", color: "#666" }}>
-                                No bills found.
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
