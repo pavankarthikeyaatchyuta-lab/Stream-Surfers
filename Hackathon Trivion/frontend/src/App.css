@@ -1,7 +1,3 @@
-/* ==============================================================================
-   STREAM SURFERS - VEHICLE SERVICE CENTER MANAGEMENT SYSTEM
-   CLEAN & SIMPLE STYLESHEET
-   ============================================================================== */
 
 body {
   margin: 0;
@@ -11,7 +7,6 @@ body {
   background-color: #ffffff;
 }
 
-/* HEADER & NAVIGATION */
 .app-title {
   margin: 0 0 12px 0;
   font-size: 22px;
@@ -51,14 +46,12 @@ hr {
   margin: 16px 0 20px 0;
 }
 
-/* SECTION HEADINGS */
 h3 {
   margin: 18px 0 10px 0;
   font-size: 16px;
   color: #222222;
 }
 
-/* FORMS */
 form {
   margin-bottom: 20px;
 }
@@ -88,7 +81,6 @@ form {
   border-color: #0056b3;
 }
 
-/* BUTTONS */
 .btn {
   padding: 6px 12px;
   font-size: 13px;
@@ -134,7 +126,6 @@ form {
   background-color: #545b62;
 }
 
-/* TABLES */
 .simple-table {
   width: 100%;
   border-collapse: collapse;
@@ -157,7 +148,6 @@ form {
   background-color: #fbfbfb;
 }
 
-/* SEARCH BAR */
 .search-bar {
   margin: 12px 0;
 }
@@ -170,7 +160,6 @@ form {
   width: 320px;
 }
 
-/* EDIT SECTION */
 .inline-edit-box {
   background-color: #f9f9f9;
   border: 1px solid #e0e0e0;

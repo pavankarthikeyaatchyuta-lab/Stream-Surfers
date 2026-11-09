@@ -46,10 +46,8 @@ function ServiceBookingForm() {
 
     useEffect(function () {
         loadData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // When selecting an existing customer and their vehicle
     function handleCustomerVehicleSelect(e) {
         const selectedReg = e.target.value;
         if (!selectedReg) {

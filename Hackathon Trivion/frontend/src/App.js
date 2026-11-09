@@ -51,7 +51,6 @@ function App() {
     <div>
       <h2 className="app-title">Vehicle Service Center Management System</h2>
 
-      {/* 3-Page Consolidated Navigation */}
       <div className="nav-links">
         <button
           type="button"
@@ -78,21 +77,18 @@ function App() {
 
       <hr />
 
-      {/* Page 1: Customers & Vehicles */}
       {currentTab === "customers-vehicles" && (
         <div>
           <CustomerForm />
         </div>
       )}
 
-      {/* Page 2: Service Bookings */}
       {currentTab === "service-bookings" && (
         <div>
           <ServiceBookingForm />
         </div>
       )}
 
-      {/* Page 3: Service Bills */}
       {currentTab === "servicebills" && (
         <div>
           <ServiceBillForm />

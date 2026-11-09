@@ -60,10 +60,8 @@ function CustomerForm() {
             contactNumber: numericPhone
         };
 
-        // 1. Add customer
         axios.post("http://localhost:5000/customers", customerData)
             .then(function () {
-                // 2. Add vehicle for customer
                 return axios.post("http://localhost:5000/vehicles", vehicleData);
             })
             .then(function () {

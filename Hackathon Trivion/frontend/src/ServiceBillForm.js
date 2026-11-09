@@ -44,10 +44,8 @@ function ServiceBillForm() {
 
     useEffect(function () {
         loadData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // When customer & vehicle is selected from the serviced bookings list
     function handleCustomerVehicleSelect(e) {
         const selectedBookingId = e.target.value;
         if (!selectedBookingId) {
@@ -184,7 +182,7 @@ function ServiceBillForm() {
                         required
                     />
                 </div>
-
+ 
                 <div className="form-row">
                     <label>billedDate:</label>
                     <input

@@ -9,11 +9,10 @@ var serviceBillRoutes = require("./api/Servicebill.route");
 
 var app = express();
 
-/* Middleware */
+
 app.use(cors());
 app.use(express.json());
 
-/* Mount routes on /api, /api/v1, and root / */
 app.use("/api/v1", customerRoutes);
 app.use("/api/v1", vehicleRoutes);
 app.use("/api/v1", serviceBookingRoutes);
@@ -29,7 +28,6 @@ app.use(vehicleRoutes);
 app.use(serviceBookingRoutes);
 app.use(serviceBillRoutes);
 
-/* MongoDB Connection */
 mongoose.connect("mongodb://127.0.0.1:27017/VehicleServiceCenter");
 
 mongoose.connection.on("connected", function () {
