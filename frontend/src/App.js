@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
+import LandingPage from "./LandingPage";
 import CustomerForm from "./CustomerForm";
 import ServiceBookingForm from "./ServiceBookingForm";
 import ServiceBillForm from "./ServiceBillForm";
 
 const ROUTES = {
-  "/": "customers-vehicles",
+  "/": "landing",
+  "/landing": "landing",
+  "/home": "landing",
   "/customers-vehicles": "customers-vehicles",
   "/customers": "customers-vehicles",
   "/vehicles": "customers-vehicles",
@@ -17,6 +20,7 @@ const ROUTES = {
 };
 
 const PATHS = {
+  landing: "/",
   "customers-vehicles": "/customers-vehicles",
   "service-bookings": "/servicebookings",
   servicebills: "/servicebills"
@@ -25,11 +29,11 @@ const PATHS = {
 function App() {
   const [currentTab, setCurrentTab] = useState(() => {
     const path = window.location.pathname.toLowerCase().replace(/\/$/, "");
-    return ROUTES[path] || ROUTES["/" + path.split("/")[1]] || "customers-vehicles";
+    return ROUTES[path] || ROUTES["/" + path.split("/")[1]] || "landing";
   });
 
   const navigate = (tab) => {
-    const targetPath = PATHS[tab] || "/customers-vehicles";
+    const targetPath = PATHS[tab] || "/";
     if (window.location.pathname !== targetPath) {
       window.history.pushState({ tab }, "", targetPath);
     }
@@ -39,7 +43,7 @@ function App() {
   useEffect(() => {
     const handlePopState = (event) => {
       const path = window.location.pathname.toLowerCase().replace(/\/$/, "");
-      const resolvedTab = (event.state && event.state.tab) || ROUTES[path] || "customers-vehicles";
+      const resolvedTab = (event.state && event.state.tab) || ROUTES[path] || "landing";
       setCurrentTab(resolvedTab);
     };
 
@@ -49,12 +53,22 @@ function App() {
 
   return (
     <div className="app-container">
-      <div className="app-header">
-        <h2 className="app-title">Vehicle Service Center Management System</h2>
-        <p className="app-subtitle">Team Trivion (Team 13) • Problem Statement M27: Stream Surfers</p>
-      </div>
+      {currentTab !== "landing" && (
+        <div className="app-header">
+          <h2 className="app-title">
+            Vehicle Service Center Management System
+          </h2>
+        </div>
+      )}
 
       <div className="nav-links">
+        <button
+          type="button"
+          className={`nav-btn ${currentTab === "landing" ? "active" : ""}`}
+          onClick={() => navigate("landing")}
+        >
+          Home
+        </button>
         <button
           type="button"
           className={`nav-btn ${currentTab === "customers-vehicles" ? "active" : ""}`}
@@ -79,6 +93,10 @@ function App() {
       </div>
 
       <hr className="divider" />
+
+      {currentTab === "landing" && (
+        <LandingPage onGetStarted={(tab) => navigate(tab || "customers-vehicles")} />
+      )}
 
       {currentTab === "customers-vehicles" && (
         <div>
