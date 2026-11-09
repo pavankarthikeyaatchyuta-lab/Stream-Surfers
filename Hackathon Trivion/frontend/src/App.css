@@ -1,0 +1,180 @@
+/* ==============================================================================
+   STREAM SURFERS - VEHICLE SERVICE CENTER MANAGEMENT SYSTEM
+   CLEAN & SIMPLE STYLESHEET
+   ============================================================================== */
+
+body {
+  margin: 0;
+  padding: 16px 24px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #333333;
+  background-color: #ffffff;
+}
+
+/* HEADER & NAVIGATION */
+.app-title {
+  margin: 0 0 12px 0;
+  font-size: 22px;
+  color: #111111;
+}
+
+.nav-links {
+  margin: 12px 0;
+}
+
+.nav-btn {
+  background-color: #f0f0f0;
+  border: 1px solid #cccccc;
+  color: #333333;
+  padding: 6px 14px;
+  margin-right: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.nav-btn:hover {
+  background-color: #e2e2e2;
+  border-color: #999999;
+}
+
+.nav-btn.active {
+  background-color: #0056b3;
+  color: #ffffff;
+  border-color: #004085;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #dddddd;
+  margin: 16px 0 20px 0;
+}
+
+/* SECTION HEADINGS */
+h3 {
+  margin: 18px 0 10px 0;
+  font-size: 16px;
+  color: #222222;
+}
+
+/* FORMS */
+form {
+  margin-bottom: 20px;
+}
+
+.form-row {
+  margin-bottom: 10px;
+}
+
+.form-row label {
+  display: inline-block;
+  width: 180px;
+  font-size: 13.5px;
+  font-weight: bold;
+}
+
+.form-input, .form-select {
+  padding: 6px 8px;
+  font-size: 13.5px;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  width: 260px;
+  box-sizing: border-box;
+}
+
+.form-input:focus, .form-select:focus {
+  outline: none;
+  border-color: #0056b3;
+}
+
+/* BUTTONS */
+.btn {
+  padding: 6px 12px;
+  font-size: 13px;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  cursor: pointer;
+  background-color: #f8f8f8;
+  color: #333333;
+  transition: background-color 0.15s ease;
+}
+
+.btn:hover {
+  background-color: #eaeaea;
+}
+
+.btn-primary {
+  background-color: #0056b3;
+  color: #ffffff;
+  border-color: #004085;
+}
+
+.btn-primary:hover {
+  background-color: #004085;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: #ffffff;
+  border-color: #bd2130;
+}
+
+.btn-danger:hover {
+  background-color: #bd2130;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: #ffffff;
+  border-color: #545b62;
+}
+
+.btn-secondary:hover {
+  background-color: #545b62;
+}
+
+/* TABLES */
+.simple-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 13.5px;
+}
+
+.simple-table th, .simple-table td {
+  border: 1px solid #dddddd;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.simple-table th {
+  background-color: #f7f7f7;
+  font-weight: bold;
+}
+
+.simple-table tr:hover {
+  background-color: #fbfbfb;
+}
+
+/* SEARCH BAR */
+.search-bar {
+  margin: 12px 0;
+}
+
+.search-input {
+  padding: 6px 10px;
+  font-size: 13.5px;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  width: 320px;
+}
+
+/* EDIT SECTION */
+.inline-edit-box {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  padding: 14px;
+  margin: 14px 0;
+  border-radius: 3px;
+}
