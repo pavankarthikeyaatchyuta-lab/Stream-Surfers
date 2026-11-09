@@ -14,8 +14,8 @@ This repository contains the full-stack project built by **Team Trivion (Team No
 Hackathon Trivion/
 ├── README.md
 ├── Vehicle_Service_Center_M27_Presentation.pptx  (Official Hackathon Presentation)
-├── backend/                                       (Node.js / Express REST API)
-└── frontend/                                      (React 19, 3-Page Consolidated UI)
+├── backend/                                     (Node.js / Express REST API)
+└── frontend/                                    (React 19, 3-Page Consolidated UI)
 ```
 
 ### Presentation
@@ -26,6 +26,7 @@ The official hackathon slides are included:
 1. **Backend**:
    ```bash
    cd backend
+   npm install
    npm start
    ```
    Runs on `http://localhost:5000`.
@@ -33,6 +34,7 @@ The official hackathon slides are included:
 2. **Frontend**:
    ```bash
    cd frontend
+   npm install
    npm start
    ```
    Runs on `http://localhost:3000`.
