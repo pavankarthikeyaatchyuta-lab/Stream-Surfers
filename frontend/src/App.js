@@ -1,15 +1,31 @@
+/**
+ * ==============================================================================
+ * APPLICATION ROOT & ROUTER (App.js)
+ * ==============================================================================
+ * This file serves as the main application shell and router:
+ * 1. Defines URL route mapping and navigation state synchronization.
+ * 2. Renders the shared Navbar component (Title + Navigation Tabs).
+ * 3. Conditionally renders each page from src/pages/ in complete isolation.
+ * ==============================================================================
+ */
+
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
-import LandingPage from "./LandingPage";
-import CustomerForm from "./CustomerForm";
-import ServiceBookingForm from "./ServiceBookingForm";
-import ServiceBillForm from "./ServiceBillForm";
+// Shared Component Imports
+import Navbar from "./components/Navbar";
 
+// Dedicated Page Component Imports (Modular architecture in src/pages/)
+import HomePage from "./pages/HomePage";
+import CustomerForm from "./pages/CustomerForm";
+import ServiceBookingForm from "./pages/ServiceBookingForm";
+import ServiceBillForm from "./pages/ServiceBillForm";
+
+// URL Route Mapping
 const ROUTES = {
-  "/": "landing",
-  "/landing": "landing",
-  "/home": "landing",
+  "/": "home",
+  "/home": "home",
+  "/landing": "home",
   "/customers-vehicles": "customers-vehicles",
   "/customers": "customers-vehicles",
   "/vehicles": "customers-vehicles",
@@ -19,19 +35,22 @@ const ROUTES = {
   "/service-bills": "servicebills"
 };
 
+// Canonical Path Mapping
 const PATHS = {
-  landing: "/",
+  home: "/",
   "customers-vehicles": "/customers-vehicles",
   "service-bookings": "/servicebookings",
   servicebills: "/servicebills"
 };
 
 function App() {
+  // Navigation state initialized from the browser window location
   const [currentTab, setCurrentTab] = useState(() => {
     const path = window.location.pathname.toLowerCase().replace(/\/$/, "");
-    return ROUTES[path] || ROUTES["/" + path.split("/")[1]] || "landing";
+    return ROUTES[path] || ROUTES["/" + path.split("/")[1]] || "home";
   });
 
+  // Navigate to a specific page and update the browser history
   const navigate = (tab) => {
     const targetPath = PATHS[tab] || "/";
     if (window.location.pathname !== targetPath) {
@@ -40,10 +59,11 @@ function App() {
     setCurrentTab(tab);
   };
 
+  // Synchronize navigation state with browser Back/Forward navigation
   useEffect(() => {
     const handlePopState = (event) => {
       const path = window.location.pathname.toLowerCase().replace(/\/$/, "");
-      const resolvedTab = (event.state && event.state.tab) || ROUTES[path] || "landing";
+      const resolvedTab = (event.state && event.state.tab) || ROUTES[path] || "home";
       setCurrentTab(resolvedTab);
     };
 
@@ -53,63 +73,35 @@ function App() {
 
   return (
     <div className="app-container">
-      {currentTab !== "landing" && (
-        <div className="app-header">
-          <h2 className="app-title">
-            Vehicle Service Center Management System
-          </h2>
-        </div>
+      {/* -------------------------------------------------------------
+          1. APPLICATION HEADER & NAVIGATION (Shared Navbar Component)
+          ------------------------------------------------------------- */}
+      <Navbar currentTab={currentTab} navigate={navigate} />
+
+      {/* -------------------------------------------------------------
+          2. DEDICATED PAGE VIEWS (Modular Components from src/pages/)
+          ------------------------------------------------------------- */}
+
+      {/* HOME PAGE (Hero Banner + Live Workshop KPI Dashboard) */}
+      {currentTab === "home" && (
+        <HomePage onGetStarted={(tab) => navigate(tab || "customers-vehicles")} />
       )}
 
-      <div className="nav-links">
-        <button
-          type="button"
-          className={`nav-btn ${currentTab === "landing" ? "active" : ""}`}
-          onClick={() => navigate("landing")}
-        >
-          Home
-        </button>
-        <button
-          type="button"
-          className={`nav-btn ${currentTab === "customers-vehicles" ? "active" : ""}`}
-          onClick={() => navigate("customers-vehicles")}
-        >
-          1. Customers & Vehicles
-        </button>
-        <button
-          type="button"
-          className={`nav-btn ${currentTab === "service-bookings" ? "active" : ""}`}
-          onClick={() => navigate("service-bookings")}
-        >
-          2. Service Bookings
-        </button>
-        <button
-          type="button"
-          className={`nav-btn ${currentTab === "servicebills" ? "active" : ""}`}
-          onClick={() => navigate("servicebills")}
-        >
-          3. Service Bills
-        </button>
-      </div>
-
-      <hr className="divider" />
-
-      {currentTab === "landing" && (
-        <LandingPage onGetStarted={(tab) => navigate(tab || "customers-vehicles")} />
-      )}
-
+      {/* PAGE 1: CUSTOMERS & VEHICLES */}
       {currentTab === "customers-vehicles" && (
         <div>
           <CustomerForm />
         </div>
       )}
 
+      {/* PAGE 2: SERVICE BOOKINGS */}
       {currentTab === "service-bookings" && (
         <div>
           <ServiceBookingForm />
         </div>
       )}
 
+      {/* PAGE 3: SERVICE BILLS */}
       {currentTab === "servicebills" && (
         <div>
           <ServiceBillForm />

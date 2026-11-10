@@ -1,7 +1,24 @@
+/**
+ * ==============================================================================
+ * PAGE 2: SERVICE BOOKINGS (ServiceBookingForm.js)
+ * ==============================================================================
+ * This file contains ALL code and logic exclusively for Page 2:
+ * 1. Book Service Appointment form (Booking ID, Customer, Vehicle, Service Type).
+ * 2. Auto-fill Customer and Vehicle info from registered vehicle dropdown.
+ * 3. Assign certified mechanics (Kumar, Ramesh, Suresh, Anand).
+ * 4. Active Service Bookings directory table with inline mechanic allocation,
+ *    live status badges, and cancel booking functionality.
+ * 5. Compact date formatting (YYYY-MM-DD) for zero horizontal scrolling.
+ * ==============================================================================
+ */
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function ServiceBookingForm() {
+    // --------------------------------------------------------------------------
+    // Form Input States
+    // --------------------------------------------------------------------------
     const [bookingId, setBookingId] = useState("");
     const [customerName, setCustomerName] = useState("");
     const [vehicleNumber, setVehicleNumber] = useState("");
@@ -12,9 +29,15 @@ function ServiceBookingForm() {
     const [estimatedCost, setEstimatedCost] = useState("");
     const [status, setStatus] = useState("Booked");
 
+    // --------------------------------------------------------------------------
+    // Data Lists
+    // --------------------------------------------------------------------------
     const [vehiclesList, setVehiclesList] = useState([]);
     const [bookings, setBookings] = useState([]);
 
+    // --------------------------------------------------------------------------
+    // Helper: Auto-generate the next sequential Booking ID (e.g. SB101, SB102)
+    // --------------------------------------------------------------------------
     function generateNextBookingId(existingBookings) {
         var maxNum = 100;
         if (existingBookings && existingBookings.length > 0) {
@@ -30,6 +53,9 @@ function ServiceBookingForm() {
         return "SB" + (maxNum + 1);
     }
 
+    // --------------------------------------------------------------------------
+    // API: Load existing bookings and registered vehicles from backend
+    // --------------------------------------------------------------------------
     function loadData() {
         Promise.all([
             axios.get("http://localhost:5000/servicebookings").catch(() => ({ data: [] })),
@@ -44,11 +70,15 @@ function ServiceBookingForm() {
         });
     }
 
+    // Load data on initial component mount
     useEffect(function () {
         loadData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    // --------------------------------------------------------------------------
+    // Dropdown Selection: Auto-populate Customer & Vehicle details
+    // --------------------------------------------------------------------------
     function handleCustomerVehicleSelect(e) {
         const selectedReg = e.target.value;
         if (!selectedReg) {
@@ -71,6 +101,9 @@ function ServiceBookingForm() {
         }
     }
 
+    // --------------------------------------------------------------------------
+    // Input Change Handler
+    // --------------------------------------------------------------------------
     function handleChange(event) {
         const { name, value } = event.target;
         if (name === "bookingId") setBookingId(value);
@@ -84,6 +117,9 @@ function ServiceBookingForm() {
         else if (name === "status") setStatus(value);
     }
 
+    // --------------------------------------------------------------------------
+    // API: Submit Service Appointment
+    // --------------------------------------------------------------------------
     function handleSubmit(event) {
         event.preventDefault();
 
@@ -118,6 +154,9 @@ function ServiceBookingForm() {
             });
     }
 
+    // --------------------------------------------------------------------------
+    // API: Re-assign Mechanic & Automatically Update Status to "In Progress"
+    // --------------------------------------------------------------------------
     function handleMechanicChange(id, newMechanic) {
         axios.put("http://localhost:5000/servicebookings/" + id, {
             mechanicName: newMechanic,
@@ -133,6 +172,9 @@ function ServiceBookingForm() {
             });
     }
 
+    // --------------------------------------------------------------------------
+    // API: Cancel Service Booking
+    // --------------------------------------------------------------------------
     function handleCancelBooking(id) {
         if (window.confirm("Cancel this service booking?")) {
             axios.delete("http://localhost:5000/servicebookings/" + id)
@@ -149,9 +191,13 @@ function ServiceBookingForm() {
 
     return (
         <div>
+            {/* -------------------------------------------------------------
+                1. BOOK SERVICE APPOINTMENT FORM
+                ------------------------------------------------------------- */}
             <h3 className="section-title">Book Service Appointment</h3>
 
             <div className="form-card">
+                {/* Optional dropdown to choose from existing vehicles */}
                 {vehiclesList.length > 0 && (
                     <div className="form-row">
                         <label>Select Customer & Vehicle:</label>
@@ -258,7 +304,6 @@ function ServiceBookingForm() {
                             placeholder="Mechanic Name"
                             value={mechanicName}
                             onChange={handleChange}
-                            required
                         />
                     </div>
 
@@ -277,12 +322,7 @@ function ServiceBookingForm() {
 
                     <div className="form-row">
                         <label>Status:</label>
-                        <select
-                            name="status"
-                            className="form-select"
-                            value={status}
-                            onChange={handleChange}
-                        >
+                        <select name="status" className="form-select" value={status} onChange={handleChange}>
                             <option value="Booked">Booked</option>
                             <option value="In Progress">In Progress</option>
                             <option value="Completed">Completed</option>
@@ -299,10 +339,13 @@ function ServiceBookingForm() {
 
             <hr className="divider" />
 
+            {/* -------------------------------------------------------------
+                2. ACTIVE SERVICE BOOKINGS DIRECTORY TABLE
+                ------------------------------------------------------------- */}
             <h3 className="section-title">Active Service Bookings</h3>
             
-            <div className="table-responsive">
-                <table className="simple-table">
+            <div className="table-responsive booking-table-wrapper">
+                <table className="simple-table booking-table">
                     <thead>
                         <tr>
                             <th>Booking ID</th>
@@ -319,6 +362,7 @@ function ServiceBookingForm() {
                     </thead>
                     <tbody>
                         {bookings.map(function (b, index) {
+                            // Format raw ISO timestamps to compact readable dates
                             const dateStr = b.bookingDate ? String(b.bookingDate).split("T")[0] : "-";
                             return (
                                 <tr key={b._id || index}>
@@ -362,7 +406,7 @@ function ServiceBookingForm() {
                         {bookings.length === 0 && (
                             <tr>
                                 <td colSpan="10" style={{ padding: "16px", color: "#64748b" }}>
-                                    No bookings found.
+                                    No service bookings found.
                                 </td>
                             </tr>
                         )}

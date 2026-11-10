@@ -1,17 +1,38 @@
+/**
+ * ==============================================================================
+ * PAGE 1: CUSTOMERS & VEHICLES (CustomerForm.js)
+ * ==============================================================================
+ * This file contains ALL code and logic exclusively for Page 1:
+ * 1. Customer registration (Name, Phone, Email).
+ * 2. Vehicle registration (Registration Number, Vehicle Model).
+ * 3. Search vehicles by registration number.
+ * 4. Registered Vehicles directory table with inline Edit & Delete actions.
+ * ==============================================================================
+ */
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function CustomerForm() {
+    // --------------------------------------------------------------------------
+    // Form Input States
+    // --------------------------------------------------------------------------
     const [customerName, setCustomerName] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [vehicleNumber, setVehicleNumber] = useState("");
     const [vehicleModel, setVehicleModel] = useState("");
 
+    // --------------------------------------------------------------------------
+    // Directory Data, Search & Edit States
+    // --------------------------------------------------------------------------
     const [vehicles, setVehicles] = useState([]);
     const [searchRegNo, setSearchRegNo] = useState("");
     const [editVehicle, setEditVehicle] = useState(null);
 
+    // --------------------------------------------------------------------------
+    // API: Fetch all registered vehicles from backend
+    // --------------------------------------------------------------------------
     function loadVehicles() {
         axios.get("http://localhost:5000/vehicles")
             .then(function (response) {
@@ -22,11 +43,15 @@ function CustomerForm() {
             });
     }
 
+    // Load registered vehicles on initial component mount
     useEffect(function () {
         loadVehicles();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    // --------------------------------------------------------------------------
+    // Input Change Handler
+    // --------------------------------------------------------------------------
     function handleChange(event) {
         const { name, value } = event.target;
         if (name === "customerName") setCustomerName(value);
@@ -36,6 +61,9 @@ function CustomerForm() {
         else if (name === "vehicleModel") setVehicleModel(value);
     }
 
+    // --------------------------------------------------------------------------
+    // API: Add Customer and Vehicle
+    // --------------------------------------------------------------------------
     function handleSubmit(event) {
         event.preventDefault();
 
@@ -60,6 +88,7 @@ function CustomerForm() {
             contactNumber: numericPhone
         };
 
+        // First save customer, then save linked vehicle
         axios.post("http://localhost:5000/customers", customerData)
             .then(function () {
                 return axios.post("http://localhost:5000/vehicles", vehicleData);
@@ -80,6 +109,9 @@ function CustomerForm() {
             });
     }
 
+    // --------------------------------------------------------------------------
+    // API: Initialize Inline Edit for a Vehicle
+    // --------------------------------------------------------------------------
     function handleStartEdit(v) {
         setEditVehicle({
             _id: v._id,
@@ -90,6 +122,9 @@ function CustomerForm() {
         });
     }
 
+    // --------------------------------------------------------------------------
+    // API: Submit Updated Vehicle Details
+    // --------------------------------------------------------------------------
     function handleUpdateSubmit(event) {
         event.preventDefault();
 
@@ -118,6 +153,9 @@ function CustomerForm() {
             });
     }
 
+    // --------------------------------------------------------------------------
+    // API: Delete a Vehicle Record
+    // --------------------------------------------------------------------------
     function handleDelete(id) {
         if (window.confirm("Are you sure you want to delete this vehicle record?")) {
             axios.delete("http://localhost:5000/vehicles/" + id)
@@ -132,6 +170,9 @@ function CustomerForm() {
         }
     }
 
+    // --------------------------------------------------------------------------
+    // Filter vehicles based on search input
+    // --------------------------------------------------------------------------
     const filteredVehicles = vehicles.filter(function (v) {
         const reg = (v.VehicleNumber || v.vehicleNumber || "").toLowerCase();
         return reg.includes(searchRegNo.toLowerCase().trim());
@@ -139,6 +180,9 @@ function CustomerForm() {
 
     return (
         <div>
+            {/* -------------------------------------------------------------
+                1. ADD CUSTOMER & VEHICLE REGISTRATION FORM
+                ------------------------------------------------------------- */}
             <h3 className="section-title">Add Customer & Vehicle</h3>
             
             <div className="form-card">
@@ -218,41 +262,63 @@ function CustomerForm() {
 
             <hr className="divider" />
 
+            {/* -------------------------------------------------------------
+                2. REGISTERED CUSTOMERS AND VEHICLES DIRECTORY
+                ------------------------------------------------------------- */}
             <h3 className="section-title">Registered Customers and Vehicles</h3>
 
+            {/* Registration Number Search Bar */}
             <div className="search-bar">
                 <label>Search vehicles using registration number:</label>
                 <input
                     type="text"
                     className="search-input"
-                    placeholder="Enter registration number (e.g. AP37AB1234)"
+                    placeholder="Enter registration number (e.g. AP37AB123)"
                     value={searchRegNo}
                     onChange={function (e) { setSearchRegNo(e.target.value); }}
                 />
             </div>
 
+            {/* Inline Edit Form (Displayed when Edit is clicked) */}
             {editVehicle && (
                 <div className="inline-edit-box">
-                    <h4>Update Vehicle ({editVehicle.VehicleNumber})</h4>
+                    <h4>Edit Vehicle Record</h4>
                     <form onSubmit={handleUpdateSubmit}>
+                        <div className="form-row">
+                            <label>Registration Number:</label>
+                            <input
+                                type="text"
+                                className="form-input"
+                                value={editVehicle.VehicleNumber}
+                                onChange={function (e) {
+                                    setEditVehicle(Object.assign({}, editVehicle, { VehicleNumber: e.target.value }));
+                                }}
+                                required
+                            />
+                        </div>
+
                         <div className="form-row">
                             <label>Vehicle Model:</label>
                             <input
                                 type="text"
                                 className="form-input"
                                 value={editVehicle.model}
-                                onChange={function (e) { setEditVehicle({ ...editVehicle, model: e.target.value }); }}
+                                onChange={function (e) {
+                                    setEditVehicle(Object.assign({}, editVehicle, { model: e.target.value }));
+                                }}
                                 required
                             />
                         </div>
 
                         <div className="form-row">
-                            <label>Customer Name:</label>
+                            <label>Owner Name:</label>
                             <input
                                 type="text"
                                 className="form-input"
                                 value={editVehicle.ownerName}
-                                onChange={function (e) { setEditVehicle({ ...editVehicle, ownerName: e.target.value }); }}
+                                onChange={function (e) {
+                                    setEditVehicle(Object.assign({}, editVehicle, { ownerName: e.target.value }));
+                                }}
                                 required
                             />
                         </div>
@@ -263,16 +329,22 @@ function CustomerForm() {
                                 type="text"
                                 className="form-input"
                                 value={editVehicle.ownerPhone}
-                                onChange={function (e) { setEditVehicle({ ...editVehicle, ownerPhone: e.target.value }); }}
+                                onChange={function (e) {
+                                    setEditVehicle(Object.assign({}, editVehicle, { ownerPhone: e.target.value }));
+                                }}
                                 required
                             />
                         </div>
 
                         <div className="btn-center">
-                            <button type="submit" className="btn btn-primary">
+                            <button type="submit" className="btn btn-primary btn-sm" style={{ marginRight: "8px" }}>
                                 Save Changes
                             </button>
-                            <button type="button" className="btn btn-secondary" onClick={function () { setEditVehicle(null); }}>
+                            <button
+                                type="button"
+                                className="btn btn-secondary btn-sm"
+                                onClick={function () { setEditVehicle(null); }}
+                            >
                                 Cancel
                             </button>
                         </div>
@@ -280,6 +352,7 @@ function CustomerForm() {
                 </div>
             )}
 
+            {/* Registered Vehicles Table */}
             <div className="table-responsive">
                 <table className="simple-table">
                     <thead>
@@ -292,31 +365,32 @@ function CustomerForm() {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredVehicles.map(function (vehicle, index) {
-                            const reg = vehicle.VehicleNumber || vehicle.vehicleNumber || "";
-                            const model = vehicle.model || vehicle.vehicleModel || "";
-                            const owner = vehicle.ownerName || vehicle.customerName || "";
-                            const contact = vehicle.ownerPhone || vehicle.contactNumber || vehicle.phone || "";
+                        {filteredVehicles.map(function (v, index) {
+                            const reg = v.VehicleNumber || v.vehicleNumber || "-";
+                            const model = v.model || v.vehicleModel || "-";
+                            const owner = v.ownerName || v.customerName || "-";
+                            const phoneVal = v.ownerPhone || v.contactNumber || v.phone || "-";
 
                             return (
-                                <tr key={vehicle._id || index}>
+                                <tr key={v._id || index}>
                                     <td><strong>{reg}</strong></td>
                                     <td>{model}</td>
                                     <td>{owner}</td>
-                                    <td>{contact}</td>
+                                    <td>{phoneVal}</td>
                                     <td>
                                         <div className="table-actions">
                                             <button
                                                 type="button"
                                                 className="btn btn-secondary btn-sm"
-                                                onClick={function () { handleStartEdit(vehicle); }}
+                                                style={{ marginRight: "6px" }}
+                                                onClick={function () { handleStartEdit(v); }}
                                             >
                                                 Edit
                                             </button>
                                             <button
                                                 type="button"
                                                 className="btn btn-danger btn-sm"
-                                                onClick={function () { handleDelete(vehicle._id); }}
+                                                onClick={function () { handleDelete(v._id); }}
                                             >
                                                 Delete
                                             </button>
@@ -328,7 +402,7 @@ function CustomerForm() {
                         {filteredVehicles.length === 0 && (
                             <tr>
                                 <td colSpan="5" style={{ padding: "16px", color: "#64748b" }}>
-                                    No records found.
+                                    No registered vehicles found matching the search criteria.
                                 </td>
                             </tr>
                         )}

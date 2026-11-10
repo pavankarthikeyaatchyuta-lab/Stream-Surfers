@@ -1,7 +1,21 @@
+/**
+ * ==============================================================================
+ * PAGE 3: SERVICE BILLS (ServiceBillForm.js)
+ * ==============================================================================
+ * This file contains ALL code and logic exclusively for Page 3:
+ * 1. Generate Service Bill form (Bill Number, Booking ID, Customer, Vehicle, Amount, Date).
+ * 2. Auto-fill from completed/serviced bookings list.
+ * 3. Registered Service Bills directory table with itemized invoice records.
+ * ==============================================================================
+ */
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function ServiceBillForm() {
+    // --------------------------------------------------------------------------
+    // Form Input States
+    // --------------------------------------------------------------------------
     const [billId, setBillId] = useState("");
     const [bookingId, setBookingId] = useState("");
     const [customerName, setCustomerName] = useState("");
@@ -9,9 +23,15 @@ function ServiceBillForm() {
     const [totalAmount, setTotalAmount] = useState("");
     const [billDate, setBillDate] = useState("");
     
+    // --------------------------------------------------------------------------
+    // Data Lists
+    // --------------------------------------------------------------------------
     const [bills, setBills] = useState([]);
     const [bookingsList, setBookingsList] = useState([]);
 
+    // --------------------------------------------------------------------------
+    // Helper: Auto-generate the next sequential Bill ID (e.g. BILL101, BILL102)
+    // --------------------------------------------------------------------------
     function generateNextBillId(existingBills) {
         var maxNum = 100;
         if (existingBills && existingBills.length > 0) {
@@ -28,6 +48,9 @@ function ServiceBillForm() {
         return "BILL" + (maxNum + 1);
     }
 
+    // --------------------------------------------------------------------------
+    // API: Load generated bills and bookings from backend
+    // --------------------------------------------------------------------------
     function loadData() {
         Promise.all([
             axios.get("http://localhost:5000/servicebills").catch(() => ({ data: [] })),
@@ -42,11 +65,15 @@ function ServiceBillForm() {
         });
     }
 
+    // Load data on initial component mount
     useEffect(function () {
         loadData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    // --------------------------------------------------------------------------
+    // Dropdown Selection: Auto-populate Customer, Vehicle & Estimated Cost from Booking
+    // --------------------------------------------------------------------------
     function handleCustomerVehicleSelect(e) {
         const selectedBookingId = e.target.value;
         if (!selectedBookingId) {
@@ -65,6 +92,9 @@ function ServiceBillForm() {
         }
     }
 
+    // --------------------------------------------------------------------------
+    // API: Submit and Generate Service Bill
+    // --------------------------------------------------------------------------
     function handleSubmit(event) {
         event.preventDefault();
 
@@ -104,9 +134,13 @@ function ServiceBillForm() {
 
     return (
         <div>
+            {/* -------------------------------------------------------------
+                1. GENERATE SERVICE BILL FORM
+                ------------------------------------------------------------- */}
             <h3 className="section-title">Generate Service Bill</h3>
 
             <div className="form-card">
+                {/* Optional dropdown to auto-fill from existing bookings */}
                 {bookingsList.length > 0 && (
                     <div className="form-row">
                         <label>Select Serviced Booking:</label>
@@ -128,6 +162,7 @@ function ServiceBillForm() {
                         <label>Bill Number:</label>
                         <input
                             type="text"
+                            name="billId"
                             className="form-input"
                             placeholder="e.g. BILL101"
                             value={billId}
@@ -140,8 +175,9 @@ function ServiceBillForm() {
                         <label>Booking ID:</label>
                         <input
                             type="text"
+                            name="bookingId"
                             className="form-input"
-                            placeholder="e.g. SB101"
+                            placeholder="Associated Booking ID"
                             value={bookingId}
                             onChange={function (e) { setBookingId(e.target.value); }}
                             required
@@ -152,6 +188,7 @@ function ServiceBillForm() {
                         <label>Customer Name:</label>
                         <input
                             type="text"
+                            name="customerName"
                             className="form-input"
                             placeholder="Customer Name"
                             value={customerName}
@@ -164,6 +201,7 @@ function ServiceBillForm() {
                         <label>Vehicle Number:</label>
                         <input
                             type="text"
+                            name="vehicleNumber"
                             className="form-input"
                             placeholder="Vehicle Number"
                             value={vehicleNumber}
@@ -173,11 +211,12 @@ function ServiceBillForm() {
                     </div>
 
                     <div className="form-row">
-                        <label>Total Cost (₹):</label>
+                        <label>Total Amount (₹):</label>
                         <input
                             type="number"
+                            name="totalAmount"
                             className="form-input"
-                            placeholder="Total Cost"
+                            placeholder="Total Bill Amount"
                             value={totalAmount}
                             onChange={function (e) { setTotalAmount(e.target.value); }}
                             required
@@ -185,13 +224,13 @@ function ServiceBillForm() {
                     </div>
 
                     <div className="form-row">
-                        <label>Billing Date:</label>
+                        <label>Bill Date:</label>
                         <input
                             type="date"
+                            name="billDate"
                             className="form-input"
                             value={billDate}
                             onChange={function (e) { setBillDate(e.target.value); }}
-                            required
                         />
                     </div>
 
@@ -205,8 +244,11 @@ function ServiceBillForm() {
 
             <hr className="divider" />
 
-            <h3 className="section-title">Service Invoices & Billing History</h3>
-            
+            {/* -------------------------------------------------------------
+                2. REGISTERED SERVICE BILLS DIRECTORY TABLE
+                ------------------------------------------------------------- */}
+            <h3 className="section-title">Registered Service Bills</h3>
+
             <div className="table-responsive">
                 <table className="simple-table">
                     <thead>
@@ -246,7 +288,7 @@ function ServiceBillForm() {
                         {bills.length === 0 && (
                             <tr>
                                 <td colSpan="6" style={{ padding: "16px", color: "#64748b" }}>
-                                    No bills found.
+                                    No service bills recorded yet.
                                 </td>
                             </tr>
                         )}

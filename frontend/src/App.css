@@ -1,14 +1,45 @@
+/**
+ * ==============================================================================
+ * APPLICATION STYLESHEET (App.css)
+ * ==============================================================================
+ * Organized strictly by page and component responsibility:
+ * 
+ * 1. MANDATORY GLOBAL CSS CODE:
+ *    - Universal resets, fonts (Times New Roman for headings, Inter for body).
+ *    - Main container layout (wide responsive bounds).
+ *    - Standard form card, labels, inputs, and button components.
+ *    - Base table foundation and status badges.
+ * 
+ * 2. HOME PAGE CSS:
+ *    - Workshop hero banner with high-contrast dark overlay.
+ *    - Times New Roman hero title and call-to-action button.
+ *    - 4-column KPI metrics grid with solid royal blue hover fill.
+ *    - Recent service activity card and summary table.
+ * 
+ * 3. REST CODES OF OTHER PAGES:
+ *    - Application Header & Navigation Bar (Times New Roman title, solid hover).
+ *    - Page 1: Customers & Vehicles (Registration search bar, inline edit box).
+ *    - Page 2: Service Bookings (Compact 10-column table with zero horizontal scroll).
+ *    - Page 3: Service Bills (Invoice cards and total calculation fields).
+ * ==============================================================================
+ */
+
+
 /* ==============================================================================
-   TRIVION - VEHICLE SERVICE CENTER MANAGEMENT SYSTEM
-   CLEAN CORPORATE STYLESHEET (NO ICONS, HERO BACKGROUND WITH BLACK PADDING)
+   1. MANDATORY GLOBAL CSS CODE
+   Description: Core baseline styles required for consistent typography, resets,
+   forms, tables, buttons, and responsive page container across the application.
    ============================================================================== */
 
+/* Typography Font Imports: Inter for clean UI text */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
+/* Global Universal Box-Sizing Reset */
 * {
   box-sizing: border-box;
 }
 
+/* Global Body Styling */
 body {
   margin: 0;
   padding: 0;
@@ -17,7 +48,12 @@ body {
   background-color: #f8fafc;
 }
 
-/* APP CONTAINER */
+/* Global Headings: Formatted in Times New Roman */
+h1, h2, h3, h4 {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+/* Main Application Container: Max-width 1220px to prevent cramped data layouts */
 .app-container {
   max-width: 1220px;
   width: 95%;
@@ -25,82 +61,221 @@ body {
   padding: 24px 16px 60px 16px;
 }
 
-/* CENTERED HEADER */
-.app-header {
-  text-align: center;
-  margin-bottom: 14px;
-}
-
-h1, h2, h3, h4 {
-  font-family: 'Times New Roman', Times, serif;
-}
-
-.app-title {
-  margin: 0 0 10px 0;
-  font-family: 'Times New Roman', Times, serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: #111827;
-  cursor: default;
-}
-
-/* CENTERED NAVIGATION BUTTONS */
-.nav-links {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 18px 0 16px 0;
-}
-
-.nav-btn {
-  background-color: #ffffff;
-  border: 1px solid #cbd5e1;
-  color: #334155;
-  padding: 8px 20px;
-  font-size: 13.5px;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-}
-
-.nav-btn:hover {
-  background-color: #0f172a;
-  border-color: #0f172a;
-  color: #ffffff;
-}
-
-.nav-btn.active {
-  background-color: #2563eb;
-  color: #ffffff;
-  border-color: #1d4ed8;
-}
-
-.nav-btn.active:hover {
-  background-color: #1d4ed8;
-  border-color: #1d4ed8;
-  color: #ffffff;
-}
-
+/* Visual Horizontal Rule Divider */
 .divider {
   border: 0;
   border-top: 1px solid #e2e8f0;
   margin: 16px 0 24px 0;
 }
 
+/* Global Centered Section Title */
+.section-title {
+  text-align: center;
+  margin: 18px 0 16px 0;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* Global Form Card Wrapper */
+.form-card {
+  max-width: 640px;
+  margin: 0 auto 30px auto;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 24px 30px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* Global Form Row: Flex alignment for label and input */
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+/* Global Form Labels */
+.form-row label {
+  width: 190px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #334155;
+  text-align: left;
+}
+
+/* Global Form Inputs and Select Menus */
+.form-input, .form-select {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 13.5px;
+  font-family: inherit;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background-color: #ffffff;
+  color: #0f172a;
+  box-sizing: border-box;
+}
+
+/* Global Form Input Focus Ring */
+.form-input:focus, .form-select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Centered Button Row */
+.btn-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Base Button Styling */
+.btn {
+  font-family: inherit;
+  padding: 8px 22px;
+  font-size: 13.5px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+/* Primary Button (Corporate Blue) */
+.btn-primary {
+  background-color: #2563eb;
+  color: #ffffff;
+  border-color: #1d4ed8;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+/* Danger Button (Red - Used for Delete & Cancel) */
+.btn-danger {
+  background-color: #dc2626;
+  color: #ffffff;
+  border-color: #b91c1c;
+}
+
+.btn-danger:hover {
+  background-color: #b91c1c;
+}
+
+/* Secondary Button (Slate Neutral - Used for Edit & Actions) */
+.btn-secondary {
+  background-color: #64748b;
+  color: #ffffff;
+  border-color: #475569;
+}
+
+.btn-secondary:hover {
+  background-color: #475569;
+}
+
+/* Small Button Modifier */
+.btn-sm {
+  padding: 4px 10px;
+  font-size: 12.5px;
+  font-weight: 500;
+  border-radius: 4px;
+}
+
+/* Base Data Table Container */
+.table-responsive {
+  width: 100%;
+  margin-top: 14px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* Base Data Table */
+.simple-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+/* Table Headers and Data Cells */
+.simple-table th, .simple-table td {
+  border: 1px solid #e2e8f0;
+  padding: 8px 8px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Table Header Formatting */
+.simple-table th {
+  background-color: #f8fafc;
+  font-weight: 700;
+  color: #334155;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Zebra Striping on Table Rows */
+.simple-table tbody tr:nth-child(even) {
+  background-color: #fbfcfe;
+}
+
+.simple-table tbody tr:hover {
+  background-color: #f1f5f9;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.status-booked {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.status-in-progress {
+  background-color: #fefce8;
+  color: #a16207;
+  border: 1px solid #fef08a;
+}
+
+.status-completed {
+  background-color: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+
 /* ==============================================================================
-   LANDING PAGE STYLES (BACKGROUND PHOTO + BLACK PADDING OVERLAY, NO ICONS)
+   2. HOME PAGE CSS (HomePage.js)
+   Description: Hero banner with workshop background, Times New Roman hero title,
+   call-to-action button, 4-column KPI metric cards with full solid blue hover fill,
+   and recent activity overview table.
    ============================================================================== */
 
-.landing-container {
+/* Home Page Container */
+.home-container {
   max-width: 960px;
   margin: 0 auto;
 }
 
-.landing-hero {
+/* Home Hero Banner: Photo background with high-contrast dark overlay */
+.home-hero {
   text-align: center;
   background-size: cover;
   background-position: center;
@@ -112,30 +287,25 @@ h1, h2, h3, h4 {
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
 }
 
-.landing-title {
+/* Home Hero Title: Styled with Times New Roman in clean white */
+.home-title {
   margin: 0 0 10px 0;
   font-family: 'Times New Roman', Times, serif;
   font-size: 34px;
   font-weight: 700;
   color: #ffffff;
-  letter-spacing: -0.01em;
   line-height: 1.25;
 }
 
-.landing-subtitle {
-  margin: 0 auto 28px auto;
-  font-size: 15px;
-  line-height: 1.5;
-  color: #cbd5e1;
-  font-weight: 500;
-}
-
-.landing-actions {
+/* Home Hero Action Wrapper */
+.home-actions {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 24px;
 }
 
+/* "Get Started" Call-to-Action Button */
 .btn-get-started {
   background-color: #2563eb;
   color: #ffffff;
@@ -146,13 +316,14 @@ h1, h2, h3, h4 {
   font-family: inherit;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
 }
 
 .btn-get-started:hover {
   background-color: #1d4ed8;
 }
 
-/* KPI SUMMARY METRICS */
+/* Live KPI Summary Metrics Grid (4 Equal Columns) */
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -160,6 +331,7 @@ h1, h2, h3, h4 {
   margin: 24px 0 20px 0;
 }
 
+/* KPI Summary Metric Card */
 .kpi-card {
   background-color: #ffffff;
   border: 1px solid #e2e8f0;
@@ -171,19 +343,13 @@ h1, h2, h3, h4 {
   transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
+/* KPI Card Hover: Complete solid royal blue fill across the whole card */
 .kpi-card:hover {
   background-color: #1e40af;
   border-color: #1e3a8a;
 }
 
-.kpi-card:hover .kpi-value {
-  color: #ffffff;
-}
-
-.kpi-card:hover .kpi-label {
-  color: #e2e8f0;
-}
-
+/* KPI Card Number Value */
 .kpi-value {
   font-size: 32px;
   font-weight: 700;
@@ -192,6 +358,11 @@ h1, h2, h3, h4 {
   font-family: 'Times New Roman', Times, serif;
 }
 
+.kpi-card:hover .kpi-value {
+  color: #ffffff;
+}
+
+/* KPI Card Text Label */
 .kpi-label {
   font-size: 13px;
   font-weight: 600;
@@ -200,7 +371,11 @@ h1, h2, h3, h4 {
   letter-spacing: 0.03em;
 }
 
-/* DASHBOARD SECTION & RECENT ACTIVITY */
+.kpi-card:hover .kpi-label {
+  color: #e2e8f0;
+}
+
+/* Recent Activity Dashboard Card */
 .dashboard-section {
   background-color: #ffffff;
   border: 1px solid #e2e8f0;
@@ -210,6 +385,7 @@ h1, h2, h3, h4 {
   margin-top: 12px;
 }
 
+/* Dashboard Section Header (Title & Shortcut Button) */
 .dashboard-header {
   display: flex;
   justify-content: space-between;
@@ -224,119 +400,84 @@ h1, h2, h3, h4 {
   text-align: left;
 }
 
+
 /* ==============================================================================
-   FORM & WORKFLOW STYLES
+   3. REST CODES OF OTHER PAGES
+   Description: Specific styles for Header & Navigation, Customers & Vehicles,
+   Service Bookings (compact table without scroll), and Service Bills.
    ============================================================================== */
 
-.section-title {
+/* ------------------------------------------------------------------------------
+   PART A: HEADER & NAVBAR COMPONENT STYLES (Navbar.js)
+   ------------------------------------------------------------------------------ */
+
+/* Centered Header Wrapper */
+.app-header {
   text-align: center;
-  margin: 18px 0 16px 0;
-  font-family: 'Times New Roman', Times, serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: #0f172a;
-}
-
-.form-card {
-  max-width: 640px;
-  margin: 0 auto 30px auto;
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 24px 30px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-}
-
-.form-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   margin-bottom: 14px;
 }
 
-.form-row label {
-  width: 190px;
-  font-size: 13.5px;
-  font-weight: 600;
-  color: #334155;
-  text-align: left;
+/* Main Application Header Title (Times New Roman, Plain Text, No Link) */
+.app-title {
+  margin: 0 0 10px 0;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  cursor: default;
 }
 
-.form-input, .form-select {
-  flex: 1;
-  padding: 8px 12px;
-  font-size: 13.5px;
-  font-family: inherit;
-  border: 1px solid #cbd5e1;
-  border-radius: 5px;
-  background-color: #ffffff;
-  color: #0f172a;
-  box-sizing: border-box;
-}
-
-.form-input:focus, .form-select:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-
-.btn-center {
+/* Centered Top Navigation Bar */
+.nav-links {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
-  margin-top: 20px;
+  margin: 18px 0 16px 0;
 }
 
-.btn {
-  font-family: inherit;
-  padding: 8px 22px;
+/* Navigation Tab Button Base */
+.nav-btn {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  padding: 8px 20px;
   font-size: 13.5px;
   font-weight: 600;
-  border: 1px solid transparent;
-  border-radius: 5px;
+  font-family: inherit;
   cursor: pointer;
-  transition: all 0.15s ease;
+  border-radius: 6px;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
-.btn-primary {
+/* Tab Button Hover: Complete solid dark charcoal fill */
+.nav-btn:hover {
+  background-color: #0f172a;
+  border-color: #0f172a;
+  color: #ffffff;
+}
+
+/* Active Tab Button: Solid corporate blue fill */
+.nav-btn.active {
   background-color: #2563eb;
   color: #ffffff;
   border-color: #1d4ed8;
 }
 
-.btn-primary:hover {
+/* Active Tab Button Hover: Deep navy fill */
+.nav-btn.active:hover {
   background-color: #1d4ed8;
-}
-
-.btn-danger {
-  background-color: #dc2626;
+  border-color: #1d4ed8;
   color: #ffffff;
-  border-color: #b91c1c;
 }
 
-.btn-danger:hover {
-  background-color: #b91c1c;
-}
 
-.btn-secondary {
-  background-color: #64748b;
-  color: #ffffff;
-  border-color: #475569;
-}
+/* ------------------------------------------------------------------------------
+   PART B: PAGE 1 - CUSTOMERS & VEHICLES STYLES (CustomerForm.js)
+   ------------------------------------------------------------------------------ */
 
-.btn-secondary:hover {
-  background-color: #475569;
-}
-
-.btn-sm {
-  padding: 4px 10px;
-  font-size: 12.5px;
-  font-weight: 500;
-  border-radius: 4px;
-}
-
-/* SEARCH BAR */
+/* Registration Search Bar Container */
 .search-bar {
   display: flex;
   justify-content: center;
@@ -352,6 +493,7 @@ h1, h2, h3, h4 {
   color: #334155;
 }
 
+/* Search Bar Input Field */
 .search-input {
   padding: 8px 14px;
   font-size: 13.5px;
@@ -368,7 +510,7 @@ h1, h2, h3, h4 {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-/* INLINE EDIT BOX */
+/* Inline Edit Card for Updating Vehicle Records */
 .inline-edit-box {
   max-width: 640px;
   margin: 16px auto 24px auto;
@@ -386,71 +528,49 @@ h1, h2, h3, h4 {
   text-align: center;
 }
 
-/* TABLE STYLING */
-.table-responsive {
-  width: 100%;
+
+/* ------------------------------------------------------------------------------
+   PART C: PAGE 2 - SERVICE BOOKINGS STYLES (ServiceBookingForm.js)
+   Description: Booking table wrapper and compact table styling ensuring all 10
+   columns are fully visible without horizontal scrolling.
+   ------------------------------------------------------------------------------ */
+
+/* Booking Table Wrapper: Clean layout without horizontal scrollbar */
+.booking-table-wrapper {
   overflow-x: auto;
-  margin-top: 14px;
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-}
-
-.simple-table {
   width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
 }
 
-.simple-table th, .simple-table td {
-  border: 1px solid #e2e8f0;
-  padding: 8px 6px;
-  text-align: center;
-  vertical-align: middle;
+/* Booking Table Layout: Compact spacing so all columns are visible simultaneously */
+.booking-table {
+  width: 100%;
+  table-layout: auto;
+  font-size: 12.5px;
 }
 
-.simple-table th {
-  background-color: #f8fafc;
-  font-weight: 700;
+.booking-table th, .booking-table td {
+  padding: 7px 5px;
+  white-space: nowrap;
+}
+
+/* Compact Mechanic Dropdown in Table Cell */
+.booking-table select.form-select {
+  width: auto;
+  min-width: 85px;
+  padding: 3px 6px;
+  font-size: 12px;
+  background-color: #ffffff;
+}
+
+/* Compact Action Buttons in Table Cell */
+.booking-table .btn-sm {
+  padding: 3px 8px;
   font-size: 11.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  color: #475569;
-  white-space: normal;
 }
 
-.table-actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-}
 
-/* STATUS BADGES */
-.status-badge {
-  display: inline-block;
-  padding: 3px 9px;
-  border-radius: 9999px;
-  font-size: 11.5px;
-  font-weight: 600;
-  text-transform: capitalize;
-}
+/* ------------------------------------------------------------------------------
+   PART D: PAGE 3 - SERVICE BILLS STYLES (ServiceBillForm.js)
+   ------------------------------------------------------------------------------ */
 
-.status-completed {
-  background-color: #dcfce7;
-  color: #15803d;
-  border: 1px solid #bbf7d0;
-}
-
-.status-in-progress {
-  background-color: #fef3c7;
-  color: #b45309;
-  border: 1px solid #fde68a;
-}
-
-.status-booked {
-  background-color: #e0f2fe;
-  color: #0369a1;
-  border: 1px solid #bae6fd;
-}
+/* Service Bill form and table specific adjustments if required */
